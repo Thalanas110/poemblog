@@ -15,7 +15,7 @@ import AdminPostsList from "@/components/AdminPostsList";
 import AdminStatistics from "@/components/AdminStatistics";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Feather, Plus, LogOut } from "lucide-react";
+import { Feather, Sparkles, Plus, LogOut, ScrollText } from "lucide-react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -113,39 +113,57 @@ const AdminDashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-page">
-      <div className="min-h-screen bg-background/80 backdrop-blur-sm">
-        <header className="glass-panel border-b border-border/50">
-          <div className="container mx-auto px-4 py-6 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <Link to="/">
-                <Feather className="h-6 w-6 text-primary" />
-              </Link>
-              <h1 className="text-xl font-heading font-bold text-foreground">Admin Dashboard</h1>
-            </div>
-            <div className="flex items-center gap-3">
-              <Button
-                onClick={() => {
-                  setEditingPoem(null);
-                  setShowEditor(true);
-                }}
-                size="sm"
-                className="font-ui gap-2"
-              >
-                <Plus className="h-4 w-4" /> New Poem
-              </Button>
-              <Button onClick={handleLogout} variant="outline" size="sm" className="font-ui gap-2">
-                <LogOut className="h-4 w-4" /> Logout
-              </Button>
+    <div className="admin-shell min-h-screen bg-page">
+      <div className="admin-shell-overlay min-h-screen">
+        <header className="admin-topbar border-b border-amber-100/15">
+          <div className="container mx-auto px-4 py-4 md:py-5">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div className="flex min-w-0 items-center gap-3">
+                <Link to="/" className="admin-glyph">
+                  <Sparkles className="h-5 w-5 text-amber-200" />
+                </Link>
+                <div className="min-w-0">
+                  <p className="font-ui text-xs uppercase tracking-[0.2em] text-amber-100/70">Enchanted Console</p>
+                  <h1 className="truncate text-lg font-heading font-semibold text-amber-50 md:text-2xl">
+                    Poems Control Room
+                  </h1>
+                </div>
+              </div>
+              <div className="flex w-full items-center gap-2 sm:w-auto">
+                <Button
+                  onClick={() => {
+                    setEditingPoem(null);
+                    setShowEditor(true);
+                  }}
+                  size="sm"
+                  className="admin-primary-btn font-ui gap-2 flex-1 sm:flex-none"
+                >
+                  <Plus className="h-4 w-4" /> New Poem
+                </Button>
+                <Button
+                  onClick={handleLogout}
+                  variant="outline"
+                  size="sm"
+                  className="font-ui gap-2 border-amber-200/25 bg-slate-900/25 text-amber-50 hover:bg-slate-900/55"
+                >
+                  <LogOut className="h-4 w-4" /> Logout
+                </Button>
+              </div>
             </div>
           </div>
         </header>
 
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-4 py-6 md:py-8">
           <Tabs defaultValue="posts">
-            <TabsList className="font-ui mb-6 bg-secondary">
-              <TabsTrigger value="posts">Posts</TabsTrigger>
-              <TabsTrigger value="statistics">Statistics</TabsTrigger>
+            <TabsList className="admin-tabs-list mb-5 md:mb-7">
+              <TabsTrigger value="posts" className="admin-tab-trigger font-ui">
+                <ScrollText className="h-4 w-4" />
+                Posts
+              </TabsTrigger>
+              <TabsTrigger value="statistics" className="admin-tab-trigger font-ui">
+                <Sparkles className="h-4 w-4" />
+                Statistics
+              </TabsTrigger>
             </TabsList>
             <TabsContent value="posts">
               <AdminPostsList
@@ -163,7 +181,7 @@ const AdminDashboard = () => {
               />
             </TabsContent>
             <TabsContent value="statistics">
-              <AdminStatistics />
+              <AdminStatistics poems={poems} />
             </TabsContent>
           </Tabs>
         </div>

@@ -1,8 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap');
 
 @layer base {
   :root {
@@ -250,6 +250,167 @@
       align-self: end;
     }
   }
+
+  .admin-shell {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background-position: 56% 18%;
+  }
+
+  .admin-shell-overlay {
+    background:
+      radial-gradient(circle at 12% 8%, hsla(45 85% 73% / 0.18), transparent 35%),
+      radial-gradient(circle at 88% 2%, hsla(151 42% 55% / 0.12), transparent 28%),
+      linear-gradient(180deg, hsla(222 24% 8% / 0.74), hsla(222 24% 8% / 0.88));
+  }
+
+  .admin-shell-overlay::before,
+  .admin-shell-overlay::after {
+    content: "";
+    position: fixed;
+    z-index: 0;
+    pointer-events: none;
+    border-radius: 9999px;
+    filter: blur(60px);
+    opacity: 0.45;
+  }
+
+  .admin-shell-overlay::before {
+    top: -70px;
+    left: -40px;
+    height: 240px;
+    width: 240px;
+    background: radial-gradient(circle, hsla(41 86% 77% / 0.52), transparent 70%);
+  }
+
+  .admin-shell-overlay::after {
+    top: 18vh;
+    right: -50px;
+    height: 200px;
+    width: 200px;
+    background: radial-gradient(circle, hsla(152 41% 60% / 0.35), transparent 70%);
+  }
+
+  .admin-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    backdrop-filter: blur(8px);
+    background: linear-gradient(180deg, hsla(223 25% 11% / 0.9), hsla(223 25% 10% / 0.58));
+  }
+
+  .admin-glyph {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.1rem;
+    width: 2.1rem;
+    border-radius: 0.75rem;
+    border: 1px solid hsla(44 80% 83% / 0.28);
+    background: linear-gradient(160deg, hsla(36 84% 72% / 0.26), hsla(36 84% 72% / 0.08));
+    box-shadow: inset 0 1px 6px hsla(35 92% 86% / 0.28);
+  }
+
+  .admin-primary-btn {
+    border: 1px solid hsla(42 87% 86% / 0.3);
+    background: linear-gradient(160deg, hsla(42 89% 70% / 0.92), hsla(34 87% 62% / 0.9));
+    color: hsl(220 25% 12%);
+    box-shadow: 0 10px 24px -18px hsla(39 96% 70% / 0.75);
+  }
+
+  .admin-primary-btn:hover {
+    filter: brightness(1.06);
+  }
+
+  .admin-tabs-list {
+    display: inline-flex;
+    gap: 0.4rem;
+    border: 1px solid hsla(42 54% 80% / 0.22);
+    border-radius: 1rem;
+    padding: 0.35rem;
+    background: hsla(222 24% 10% / 0.68);
+    width: 100%;
+  }
+
+  .admin-tab-trigger {
+    display: inline-flex;
+    gap: 0.4rem;
+    align-items: center;
+    border-radius: 0.75rem;
+    color: hsla(39 48% 90% / 0.75);
+  }
+
+  .admin-tab-trigger[data-state="active"] {
+    background: hsla(39 84% 78% / 0.16);
+    color: hsl(40 90% 94%);
+  }
+
+  .admin-stat-panel,
+  .admin-post-card,
+  .admin-editor-panel {
+    border: 1px solid hsla(42 49% 80% / 0.18);
+    background: linear-gradient(160deg, hsla(224 25% 12% / 0.76), hsla(223 24% 10% / 0.64));
+    box-shadow: 0 24px 55px -45px hsla(220 38% 3% / 0.95);
+    backdrop-filter: blur(9px);
+  }
+
+  .admin-cover-frame {
+    height: 4.25rem;
+    width: 4.25rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: 0.9rem;
+    border: 1px solid hsla(42 49% 80% / 0.16);
+    background: linear-gradient(160deg, hsla(42 90% 68% / 0.12), hsla(220 22% 13% / 0.46));
+    overflow: hidden;
+  }
+
+  @media (max-width: 767px) {
+    .admin-shell {
+      background-attachment: scroll;
+      background-position: 62% 8%;
+    }
+
+    .admin-shell-overlay::before,
+    .admin-shell-overlay::after {
+      position: absolute;
+      filter: blur(44px);
+      opacity: 0.36;
+    }
+
+    .admin-shell-overlay::before {
+      top: -56px;
+      left: -70px;
+      height: 190px;
+      width: 190px;
+    }
+
+    .admin-shell-overlay::after {
+      top: 18vh;
+      right: -74px;
+      height: 170px;
+      width: 170px;
+    }
+
+    .admin-tabs-list {
+      width: 100%;
+    }
+
+    .admin-tab-trigger {
+      flex: 1;
+      justify-content: center;
+    }
+
+    .admin-stat-panel,
+    .admin-post-card,
+    .admin-editor-panel {
+      backdrop-filter: blur(4px);
+      box-shadow: 0 20px 36px -38px hsla(220 38% 3% / 0.95);
+    }
+  }
 }
 
 @layer utilities {
@@ -260,5 +421,11 @@
   @keyframes fadeIn {
     from { opacity: 0; transform: translateY(12px); }
     to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-fade-in {
+      animation: none;
+    }
   }
 }

@@ -46,45 +46,50 @@ const PoemEditor = ({ poem, onSave, onCancel, saving }: PoemEditorProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-page">
-      <div className="min-h-screen bg-background/80 backdrop-blur-sm">
-        <header className="glass-panel border-b border-border/50">
-          <div className="container mx-auto px-4 py-6 flex items-center gap-4">
-            <Button variant="ghost" size="icon" onClick={onCancel}>
+    <div className="admin-shell min-h-screen bg-page">
+      <div className="admin-shell-overlay min-h-screen">
+        <header className="admin-topbar border-b border-amber-100/15">
+          <div className="container mx-auto px-4 py-4 md:py-5 flex items-center gap-4">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={onCancel}
+              className="text-amber-100 hover:bg-slate-900/35"
+            >
               <ArrowLeft className="h-5 w-5" />
             </Button>
-            <h1 className="text-xl font-heading font-bold text-foreground">
+            <h1 className="text-xl font-heading font-semibold text-amber-50 md:text-2xl">
               {poem ? "Edit Poem" : "New Poem"}
             </h1>
           </div>
         </header>
 
-        <div className="container mx-auto px-4 py-8 max-w-2xl">
-          <form onSubmit={handleSubmit} className="glass-panel rounded-lg p-8 space-y-6 animate-fade-in">
+        <div className="container mx-auto px-4 py-6 md:py-8 max-w-3xl">
+          <form onSubmit={handleSubmit} className="admin-editor-panel rounded-2xl p-5 space-y-6 animate-fade-in md:p-8">
             <div>
-              <Label className="font-ui text-sm text-muted-foreground">Title</Label>
+              <Label className="font-ui text-sm text-amber-100/80">Title</Label>
               <Input
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="mt-1 bg-secondary border-border font-heading text-lg"
+                className="mt-1 border-amber-100/20 bg-slate-900/30 font-heading text-lg text-amber-50"
                 placeholder="The Road Not Taken..."
                 required
               />
             </div>
             <div>
-              <Label className="font-ui text-sm text-muted-foreground">Author</Label>
+              <Label className="font-ui text-sm text-amber-100/80">Author</Label>
               <Input
                 value={author}
                 onChange={(e) => setAuthor(e.target.value)}
-                className="mt-1 bg-secondary border-border font-ui"
+                className="mt-1 border-amber-100/20 bg-slate-900/30 font-ui text-amber-50"
                 placeholder="Anonymous"
               />
             </div>
 
             {/* Image Upload */}
             <div>
-              <Label className="font-ui text-sm text-muted-foreground">
-                Cover Image <span className="text-muted-foreground/60">(optional)</span>
+              <Label className="font-ui text-sm text-amber-100/80">
+                Cover Image <span className="text-amber-100/60">(optional)</span>
               </Label>
               <input
                 ref={fileRef}
@@ -95,7 +100,7 @@ const PoemEditor = ({ poem, onSave, onCancel, saving }: PoemEditorProps) => {
               />
               {imageUrl ? (
                 <div className="mt-2 relative inline-block">
-                  <img src={imageUrl} alt="Cover" className="w-full max-w-xs rounded-md object-cover h-40" />
+                  <img src={imageUrl} alt="Cover" className="w-full max-w-xs rounded-xl object-cover h-40 border border-amber-100/20" />
                   <Button
                     type="button"
                     variant="destructive"
@@ -110,7 +115,7 @@ const PoemEditor = ({ poem, onSave, onCancel, saving }: PoemEditorProps) => {
                 <Button
                   type="button"
                   variant="outline"
-                  className="mt-2 font-ui gap-2"
+                  className="mt-2 font-ui gap-2 border-amber-100/30 bg-slate-900/25 text-amber-50 hover:bg-slate-900/45"
                   disabled={uploading}
                   onClick={() => fileRef.current?.click()}
                 >
@@ -121,43 +126,48 @@ const PoemEditor = ({ poem, onSave, onCancel, saving }: PoemEditorProps) => {
             </div>
 
             <div>
-              <Label className="font-ui text-sm text-muted-foreground">Poem Content</Label>
-              <p className="text-xs text-muted-foreground mb-2 font-ui">
+              <Label className="font-ui text-sm text-amber-100/80">Poem Content</Label>
+              <p className="text-xs text-amber-100/65 mb-2 font-ui">
                 Write your poem with line breaks. Each line break will be preserved.
               </p>
               <Textarea
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
-                className="mt-1 bg-secondary border-border font-body min-h-[300px] leading-relaxed"
+                className="mt-1 border-amber-100/20 bg-slate-900/28 font-body min-h-[260px] md:min-h-[300px] leading-relaxed text-amber-50"
                 placeholder={"Two roads diverged in a yellow wood,\nAnd sorry I could not travel both..."}
                 required
               />
             </div>
             <div>
-              <Label className="font-ui text-sm text-muted-foreground">
-                Excerpt <span className="text-muted-foreground/60">(optional)</span>
+              <Label className="font-ui text-sm text-amber-100/80">
+                Excerpt <span className="text-amber-100/60">(optional)</span>
               </Label>
               <Textarea
                 value={excerpt}
                 onChange={(e) => setExcerpt(e.target.value)}
-                className="mt-1 bg-secondary border-border font-body min-h-[80px]"
+                className="mt-1 border-amber-100/20 bg-slate-900/28 font-body min-h-[80px] text-amber-50"
                 placeholder="A short preview for the card..."
               />
             </div>
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between rounded-xl border border-amber-100/15 bg-slate-950/20 px-3 py-2.5">
               <div>
-                <Label className="font-ui text-sm text-foreground">Publish</Label>
-                <p className="text-xs text-muted-foreground font-ui">
+                <Label className="font-ui text-sm text-amber-50">Publish</Label>
+                <p className="text-xs text-amber-100/65 font-ui">
                   Make this poem visible to readers
                 </p>
               </div>
               <Switch checked={published} onCheckedChange={setPublished} />
             </div>
-            <div className="flex gap-3 pt-4">
-              <Button type="submit" disabled={saving || uploading} className="font-ui flex-1">
+            <div className="flex flex-col gap-3 pt-2 sm:flex-row">
+              <Button type="submit" disabled={saving || uploading} className="admin-primary-btn font-ui flex-1">
                 {saving ? "Saving..." : poem ? "Update Poem" : "Create Poem"}
               </Button>
-              <Button type="button" variant="outline" onClick={onCancel} className="font-ui">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={onCancel}
+                className="font-ui border-amber-100/30 bg-slate-900/25 text-amber-50 hover:bg-slate-900/45"
+              >
                 Cancel
               </Button>
             </div>

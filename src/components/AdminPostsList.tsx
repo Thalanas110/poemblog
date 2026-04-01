@@ -1,7 +1,7 @@
 import { type Poem } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Feather, Plus, Edit, Trash2 } from "lucide-react";
+import { Feather, Plus, Edit, Trash2, BookText, CalendarDays } from "lucide-react";
 
 interface AdminPostsListProps {
   poems: Poem[] | undefined;
@@ -16,7 +16,7 @@ const AdminPostsList = ({ poems, isLoading, onNew, onEdit, onDelete }: AdminPost
     return (
       <div className="space-y-4">
         {[1, 2, 3].map((i) => (
-          <div key={i} className="glass-panel rounded-lg p-6 animate-pulse h-24" />
+          <div key={i} className="admin-post-card rounded-2xl p-6 animate-pulse h-24" />
         ))}
       </div>
     );
@@ -24,12 +24,12 @@ const AdminPostsList = ({ poems, isLoading, onNew, onEdit, onDelete }: AdminPost
 
   if (!poems || poems.length === 0) {
     return (
-      <div className="text-center py-20">
-        <Feather className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-        <p className="text-muted-foreground font-body text-lg mb-4">
+      <div className="admin-post-card rounded-2xl py-16 text-center">
+        <Feather className="h-12 w-12 text-amber-100/60 mx-auto mb-4" />
+        <p className="text-amber-50/80 font-body text-lg mb-4">
           No poems yet. Start writing!
         </p>
-        <Button onClick={onNew} className="font-ui gap-2">
+        <Button onClick={onNew} className="admin-primary-btn font-ui gap-2">
           <Plus className="h-4 w-4" /> Create Your First Poem
         </Button>
       </div>
@@ -41,43 +41,60 @@ const AdminPostsList = ({ poems, isLoading, onNew, onEdit, onDelete }: AdminPost
       {poems.map((poem) => (
         <div
           key={poem.id}
-          className="glass-panel rounded-lg p-6 flex items-start justify-between gap-4 animate-fade-in"
+          className="admin-post-card rounded-2xl p-4 md:p-5 animate-fade-in"
         >
-          <div className="flex items-start gap-4 flex-1 min-w-0">
-            {poem.image_url && (
-              <img
-                src={poem.image_url}
-                alt={poem.title}
-                className="w-16 h-16 rounded-md object-cover flex-shrink-0"
-              />
-            )}
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-3 mb-1">
-                <h3 className="font-heading text-lg font-semibold text-foreground truncate">
-                  {poem.title}
-                </h3>
-                <Badge variant={poem.published ? "default" : "secondary"} className="font-ui text-xs">
-                  {poem.published ? "Published" : "Draft"}
-                </Badge>
+          <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+            <div className="flex min-w-0 flex-1 items-start gap-4">
+              <div className="admin-cover-frame">
+                {poem.image_url ? (
+                  <img
+                    src={poem.image_url}
+                    alt={poem.title}
+                    className="h-full w-full rounded-xl object-cover"
+                  />
+                ) : (
+                  <BookText className="h-5 w-5 text-amber-100/55" />
+                )}
               </div>
-              <p className="text-sm font-ui text-muted-foreground">
-                by {poem.author} · {new Date(poem.created_at).toLocaleDateString()}
-              </p>
+              <div className="min-w-0 flex-1">
+                <div className="mb-1.5 flex flex-wrap items-center gap-2">
+                  <h3 className="truncate font-heading text-lg font-semibold text-amber-50">{poem.title}</h3>
+                  <Badge
+                    variant="outline"
+                    className={poem.published
+                      ? "border-emerald-300/30 bg-emerald-300/10 font-ui text-xs text-emerald-100"
+                      : "border-orange-300/30 bg-orange-300/10 font-ui text-xs text-orange-100"
+                    }
+                  >
+                    {poem.published ? "Published" : "Draft"}
+                  </Badge>
+                </div>
+                <p className="font-ui text-sm text-amber-100/75">by {poem.author || "Unknown author"}</p>
+                <div className="mt-2 flex items-center gap-2 font-ui text-xs text-amber-100/65">
+                  <CalendarDays className="h-3.5 w-3.5" />
+                  {new Date(poem.created_at).toLocaleDateString()}
+                </div>
+              </div>
             </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <Button variant="outline" size="icon" onClick={() => onEdit(poem)}>
-              <Edit className="h-4 w-4" />
-            </Button>
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={() => {
-                if (confirm("Delete this poem?")) onDelete(poem.id);
-              }}
-            >
-              <Trash2 className="h-4 w-4 text-destructive" />
-            </Button>
+
+            <div className="grid grid-cols-2 gap-2 md:flex md:items-center">
+              <Button
+                variant="outline"
+                onClick={() => onEdit(poem)}
+                className="border-amber-100/25 bg-slate-950/20 font-ui text-amber-50 hover:bg-slate-900/45"
+              >
+                <Edit className="h-4 w-4" /> Edit
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => {
+                  if (confirm("Delete this poem?")) onDelete(poem.id);
+                }}
+                className="border-rose-300/25 bg-rose-400/10 font-ui text-rose-100 hover:bg-rose-400/20"
+              >
+                <Trash2 className="h-4 w-4" /> Delete
+              </Button>
+            </div>
           </div>
         </div>
       ))}
