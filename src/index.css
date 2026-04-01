@@ -431,7 +431,7 @@
 
   @media (max-width: 767px) {
     .admin-shell {
-      background-attachment: scroll;
+      background-attachment: fixed;
       background-position: 62% 8%;
     }
 
