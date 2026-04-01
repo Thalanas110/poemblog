@@ -35,8 +35,12 @@ const Index = () => {
           </div>
         </header>
 
-        <section className="mx-auto w-full max-w-6xl px-4 pb-20 pt-14 md:pt-20">
-          <div className="mb-12 md:mb-14 animate-fade-in">
+        <section className="relative mx-auto w-full max-w-6xl px-4 pb-20 pt-14 md:pt-20">
+          <div className="pointer-events-none absolute inset-x-4 top-10 h-[14rem] rounded-3xl bg-slate-950/42 blur-2xl" />
+          <div className="pointer-events-none absolute inset-x-4 top-[26rem] bottom-10 rounded-3xl bg-slate-950/36 blur-2xl md:top-[30rem]" />
+
+          <div className="relative z-10">
+          <div className="mb-12 rounded-2xl border border-amber-100/15 bg-slate-950/78 p-6 shadow-[0_14px_45px_rgba(2,6,23,0.7)] md:mb-14 md:p-8 animate-fade-in">
             <p className="font-ui uppercase tracking-[0.22em] text-xs text-amber-100/65 mb-4">
               Poetry Journal
             </p>
@@ -62,7 +66,7 @@ const Index = () => {
               {featuredPoem && (
                 <Link
                   to={`/poem/${featuredPoem.id}`}
-                  className="group mb-12 block overflow-hidden rounded-2xl border border-amber-100/20 bg-slate-950/55 shadow-[0_20px_70px_rgba(2,6,23,0.82),0_0_42px_rgba(251,146,60,0.18)] transition-all duration-300 hover:border-amber-200/40 hover:shadow-[0_25px_85px_rgba(2,6,23,0.88),0_0_55px_rgba(251,146,60,0.25)]"
+                  className="group mb-12 block overflow-hidden rounded-2xl border border-amber-100/20 bg-slate-950/88 backdrop-blur-sm shadow-[0_20px_70px_rgba(2,6,23,0.82),0_0_42px_rgba(251,146,60,0.18)] transition-all duration-300 hover:border-amber-200/40 hover:shadow-[0_25px_85px_rgba(2,6,23,0.88),0_0_55px_rgba(251,146,60,0.25)]"
                 >
                   <div className="grid lg:grid-cols-[1.25fr_1fr]">
                     <div className="relative min-h-72 lg:min-h-[27rem]">
@@ -107,61 +111,74 @@ const Index = () => {
                 </Link>
               )}
 
-              {remainingPoems.length > 0 && (
-                <div className="mb-5 flex items-end justify-between">
-                  <h3 className="text-2xl font-heading font-semibold text-amber-50/95">Latest poems</h3>
-                  <p className="font-ui text-xs uppercase tracking-[0.17em] text-amber-100/50">
-                    {remainingPoems.length} entries
-                  </p>
-                </div>
-              )}
+              <div className="mx-auto w-full max-w-6xl">
+                {remainingPoems.length > 0 && (
+                  <div className="mb-5 flex items-end justify-between px-1">
+                    <h3 className="text-2xl font-heading font-semibold text-amber-50/95">Latest poems</h3>
+                    <p className="font-ui text-xs uppercase tracking-[0.17em] text-amber-100/80">
+                      {remainingPoems.length} entries
+                    </p>
+                  </div>
+                )}
 
-              <div className="space-y-4">
-                {remainingPoems.map((poem, i) => (
-                  <Link
-                    key={poem.id}
-                    to={`/poem/${poem.id}`}
-                    className="group overflow-hidden rounded-xl border border-amber-100/15 bg-slate-950/72 transition-all duration-300 hover:border-amber-200/30 hover:bg-slate-950/82 hover:shadow-[0_12px_45px_rgba(2,6,23,0.78)] animate-fade-in"
-                    style={{ animationDelay: `${i * 90}ms` }}
-                  >
-                    <div className="grid md:grid-cols-[16rem_1fr]">
-                      <div className="h-full min-h-44">
-                        {poem.image_url ? (
-                          <img
-                            src={poem.image_url}
-                            alt={poem.title}
-                            className="h-full w-full object-cover"
-                          />
-                        ) : (
-                          <div className="h-full w-full bg-gradient-to-br from-amber-400/30 via-orange-400/20 to-slate-900" />
-                        )}
-                      </div>
+                <div
+                  className="rounded-2xl border border-amber-100/20 p-4 shadow-[0_18px_50px_rgba(2,6,23,0.72)] md:p-6"
+                  style={{ backgroundColor: "rgba(2, 6, 23, 0.88)" }}
+                >
+                  <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+                  {remainingPoems.map((poem, i) => (
+                    <Link
+                      key={poem.id}
+                      to={`/poem/${poem.id}`}
+                      className="group overflow-hidden rounded-xl border border-amber-100/20 transition-all duration-300 hover:border-amber-200/50 hover:shadow-[0_12px_45px_rgba(2,6,23,0.78)] animate-fade-in"
+                      style={{
+                        animationDelay: `${i * 90}ms`,
+                        backgroundColor: "rgba(15, 23, 42, 0.92)",
+                      }}
+                    >
+                      <div>
+                        <div className="h-52 overflow-hidden">
+                          {poem.image_url ? (
+                            <img
+                              src={poem.image_url}
+                              alt={poem.title}
+                              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                            />
+                          ) : (
+                            <div className="h-full w-full bg-gradient-to-br from-amber-400/30 via-orange-400/20 to-slate-900" />
+                          )}
+                        </div>
 
-                      <div className="p-6 md:p-7">
-                        <h4 className="text-2xl font-heading font-semibold text-amber-50 group-hover:text-amber-100 transition-colors mb-3 leading-tight">
-                          {poem.title}
-                        </h4>
-                        <p className="text-sm font-ui text-amber-100/60 mb-4">by {poem.author}</p>
-                        <p className="poem-content text-amber-50/85 line-clamp-3 text-base leading-relaxed">
-                          {poem.excerpt || poem.content.slice(0, 190)}
-                        </p>
-                        <div className="mt-5 flex items-center justify-between font-ui text-xs text-amber-100/55">
-                          <span>
-                            {new Date(poem.created_at).toLocaleDateString("en-US", {
-                              year: "numeric",
-                              month: "long",
-                              day: "numeric",
-                            })}
-                          </span>
-                          <span className="inline-flex items-center gap-1 group-hover:text-amber-200 transition-colors">
-                            Read poem
-                            <ArrowRight className="h-3.5 w-3.5" />
-                          </span>
+                        <div className="p-5" style={{ backgroundColor: "rgba(15, 23, 42, 0.96)" }}>
+                          <p className="font-ui text-[11px] uppercase tracking-[0.16em] text-amber-300/85 mb-3">
+                            Poem
+                          </p>
+                          <h4 className="text-2xl font-heading font-semibold text-amber-50 group-hover:text-amber-100 transition-colors mb-3 leading-tight line-clamp-2">
+                            {poem.title}
+                          </h4>
+                          <p className="text-sm font-ui text-amber-100/70 mb-3">by {poem.author}</p>
+                          <p className="poem-content text-amber-50/86 line-clamp-2 text-sm leading-relaxed mb-4">
+                            {poem.excerpt || poem.content.slice(0, 120)}
+                          </p>
+                          <div className="border-t border-amber-100/10 pt-4 flex items-center justify-between font-ui text-xs text-amber-100/65">
+                            <span className="font-medium">
+                              {new Date(poem.created_at).toLocaleDateString("en-US", {
+                                year: "numeric",
+                                month: "long",
+                                day: "numeric",
+                              })}
+                            </span>
+                            <span className="inline-flex items-center gap-1 text-amber-200/90 group-hover:text-amber-100 transition-colors">
+                              Read More
+                              <ArrowRight className="h-3.5 w-3.5" />
+                            </span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </Link>
-                ))}
+                    </Link>
+                  ))}
+                </div>
+                </div>
               </div>
             </>
           ) : (
@@ -172,6 +189,7 @@ const Index = () => {
               </p>
             </div>
           )}
+          </div>
         </section>
       </div>
     </div>
