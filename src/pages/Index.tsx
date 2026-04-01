@@ -27,10 +27,10 @@ const Index = () => {
               </span>
               <div className="min-w-0">
                 <h1 className="text-xl md:text-2xl font-heading font-bold text-amber-50 text-glow leading-none truncate">
-                  Verses & Visions
+                  Adriaan's Hidden Corner
                 </h1>
                 <p className="font-ui text-[10px] md:text-xs uppercase tracking-[0.16em] text-amber-100/55 mt-1">
-                  Poetry Journal
+                  Poetry Corner
                 </p>
               </div>
             </Link>
@@ -95,13 +95,14 @@ const Index = () => {
           <div className="relative z-10">
           <div className="mb-12 rounded-2xl border border-amber-100/15 bg-slate-950/78 p-6 shadow-[0_14px_45px_rgba(2,6,23,0.7)] md:mb-14 md:p-8 animate-fade-in">
             <p className="font-ui uppercase tracking-[0.22em] text-xs text-amber-100/65 mb-4">
-              Poetry Journal
+              My hidden corner for everything.
             </p>
             <h2 className="text-4xl md:text-6xl font-heading font-bold text-amber-50 text-glow max-w-4xl leading-tight">
-              Poems that linger after the last line.
+              A quiet nook for my poetry and musings, tucked away from the noise of the world.
             </h2>
             <p className="mt-5 text-lg text-amber-100/65 font-body max-w-2xl leading-relaxed">
-              Explore a curated collection of reflective pieces, each paired with imagery and atmosphere built for immersive reading.
+              Here I share my verses, thoughts, and reflections—a personal sanctuary where words bloom and
+              creativity flows freely.
             </p>
           </div>
 
