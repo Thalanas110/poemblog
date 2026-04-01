@@ -1,7 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchPoems, type Poem } from "@/lib/api";
 import { Link } from "react-router-dom";
-import { ArrowRight, Feather } from "lucide-react";
+import { ArrowRight, Feather, Menu } from "lucide-react";
+import { Sheet, SheetClose, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 
 const Index = () => {
   const { data: poems, isLoading } = useQuery<Poem[]>({
@@ -34,20 +35,56 @@ const Index = () => {
               </div>
             </Link>
 
-            <nav className="flex items-center gap-2 md:gap-3 font-ui">
+            <nav className="hidden md:flex items-center gap-3 font-ui">
               <a
                 href="#latest-poems"
-                className="rounded-full border border-amber-100/20 bg-slate-900/60 px-3 py-1.5 text-xs md:text-sm text-amber-100/85 hover:text-amber-50 hover:border-amber-200/40 transition-colors"
+                className="rounded-full border border-amber-100/20 bg-slate-900/60 px-3 py-1.5 text-sm text-amber-100/85 hover:text-amber-50 hover:border-amber-200/40 transition-colors"
               >
                 Latest
               </a>
               <Link
                 to="/admin"
-                className="rounded-full border border-amber-100/25 px-3 py-1.5 text-xs md:text-sm text-amber-100/80 hover:text-amber-50 hover:bg-slate-900/55 transition-colors"
+                className="rounded-full border border-amber-100/25 px-3 py-1.5 text-sm text-amber-100/80 hover:text-amber-50 hover:bg-slate-900/55 transition-colors"
               >
                 Admin
               </Link>
             </nav>
+
+            <Sheet>
+              <SheetTrigger asChild>
+                <button
+                  type="button"
+                  aria-label="Open navigation menu"
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-amber-100/25 bg-slate-900/60 text-amber-100/90 transition-colors hover:text-amber-50 hover:border-amber-200/40 md:hidden"
+                >
+                  <Menu className="h-5 w-5" />
+                </button>
+              </SheetTrigger>
+              <SheetContent
+                side="top"
+                className="border-amber-100/15 bg-slate-950/97 px-4 pb-6 pt-12 text-amber-100 shadow-[0_24px_50px_rgba(2,6,23,0.85)]"
+              >
+                <SheetTitle className="sr-only">Navigation menu</SheetTitle>
+                <div className="mt-2 flex flex-col gap-3 font-ui">
+                  <SheetClose asChild>
+                    <a
+                      href="#latest-poems"
+                      className="rounded-xl border border-amber-100/20 bg-slate-900/65 px-4 py-3 text-sm uppercase tracking-[0.14em] text-amber-100/90 transition-colors hover:text-amber-50 hover:border-amber-200/45"
+                    >
+                      Latest poems
+                    </a>
+                  </SheetClose>
+                  <SheetClose asChild>
+                    <Link
+                      to="/admin"
+                      className="rounded-xl border border-amber-100/25 bg-slate-900/55 px-4 py-3 text-sm uppercase tracking-[0.14em] text-amber-100/85 transition-colors hover:text-amber-50 hover:border-amber-200/45"
+                    >
+                      Admin dashboard
+                    </Link>
+                  </SheetClose>
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
         </header>
 
