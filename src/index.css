@@ -97,6 +97,159 @@
     background-position: center;
     background-attachment: fixed;
   }
+
+  .admin-login-shell {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .admin-login-shell.bg-page {
+    background-position: 52% 22%;
+  }
+
+  .admin-login-backdrop {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(circle at 16% 20%, hsla(var(--primary) / 0.26) 0%, transparent 42%),
+      radial-gradient(circle at 86% 16%, hsla(44 64% 78% / 0.18) 0%, transparent 42%),
+      radial-gradient(circle at 50% 44%, hsla(220 20% 8% / 0) 0%, hsla(220 20% 8% / 0.06) 42%, hsla(220 20% 8% / 0.42) 100%);
+  }
+
+  .admin-login-layout {
+    position: relative;
+    z-index: 1;
+    min-height: calc(100vh - 3rem);
+    display: grid;
+    gap: 1.5rem;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .admin-story {
+    background: transparent;
+    border: 0;
+    border-radius: 1.25rem;
+    padding: 0.35rem;
+    text-shadow: 0 3px 24px hsla(220 35% 4% / 0.6);
+  }
+
+  .admin-story-copy {
+    display: inline-block;
+    max-width: 42rem;
+    padding: 0.8rem 0.9rem;
+    border-radius: 0.9rem;
+    background: linear-gradient(98deg, hsla(220 25% 8% / 0.68) 8%, hsla(220 25% 8% / 0.36) 56%, hsla(220 25% 8% / 0) 100%);
+  }
+
+  .admin-story-kicker {
+    color: hsl(41 85% 72%);
+    text-shadow: 0 2px 12px hsla(220 45% 4% / 0.7);
+  }
+
+  .admin-story-title {
+    color: hsl(var(--foreground));
+    text-shadow: 0 4px 20px hsla(220 45% 4% / 0.86);
+  }
+
+  .admin-story-title-emphasis {
+    color: hsl(40 85% 84%);
+    text-shadow: 0 5px 24px hsla(220 45% 4% / 0.9);
+  }
+
+  .admin-story-body {
+    color: hsl(40 22% 90%);
+    text-shadow: 0 3px 14px hsla(220 45% 4% / 0.85);
+  }
+
+  .admin-login-panel {
+    border-radius: 1.25rem;
+    border: 1px solid hsla(var(--glass-border));
+    background: linear-gradient(160deg, hsla(220 24% 10% / 0.82), hsla(220 20% 11% / 0.62));
+    box-shadow: 0 24px 50px -30px hsla(220 30% 5% / 0.7);
+    padding: 1.5rem;
+    width: 100%;
+    max-width: 25rem;
+    justify-self: center;
+  }
+
+  @media (min-width: 768px) {
+    .admin-login-layout {
+      grid-template-columns: minmax(0, 1fr) minmax(340px, 430px);
+      gap: 2.5rem;
+      min-height: calc(100vh - 5rem);
+      align-content: end;
+    }
+
+    .admin-story {
+      padding: 1rem;
+    }
+
+    .admin-story-copy {
+      padding: 1rem 1.1rem;
+    }
+
+    .admin-login-panel {
+      padding: 2rem;
+      backdrop-filter: blur(8px);
+      align-self: end;
+      margin-bottom: 1.2rem;
+      justify-self: end;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .bg-page {
+      background-attachment: scroll;
+      background-position: 58% center;
+    }
+
+    .admin-login-shell.bg-page {
+      background-position: 60% 18%;
+    }
+
+    .admin-login-backdrop {
+      background:
+        radial-gradient(circle at 50% 6%, hsla(var(--primary) / 0.24) 0%, transparent 44%),
+        radial-gradient(circle at 92% 100%, hsla(40 70% 76% / 0.14) 0%, transparent 36%),
+        radial-gradient(circle at 50% 44%, hsla(220 20% 8% / 0) 0%, hsla(220 20% 8% / 0.04) 40%, hsla(220 20% 8% / 0.34) 100%);
+    }
+
+    .admin-login-layout {
+      align-content: end;
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+    }
+
+    .admin-story {
+      padding: 0.15rem;
+    }
+
+    .admin-story-copy {
+      max-width: 100%;
+      padding: 0.75rem 0.8rem;
+      background: linear-gradient(180deg, hsla(220 25% 8% / 0.68) 0%, hsla(220 25% 8% / 0.4) 58%, hsla(220 25% 8% / 0.16) 100%);
+    }
+
+    .admin-story-title {
+      line-height: 1.1;
+    }
+
+    .admin-story-body {
+      max-width: 30rem;
+    }
+
+    .admin-login-panel {
+      padding: 1.25rem;
+      background: linear-gradient(160deg, hsla(220 24% 10% / 0.8), hsla(220 20% 11% / 0.58));
+      box-shadow: 0 22px 36px -34px hsla(220 30% 5% / 0.78);
+      align-self: end;
+    }
+  }
 }
 
 @layer utilities {
