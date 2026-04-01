@@ -346,6 +346,51 @@
     color: hsl(40 90% 94%);
   }
 
+  .admin-overview-band {
+    border: 1px solid hsla(42 49% 80% / 0.18);
+    background:
+      radial-gradient(circle at 12% 10%, hsla(44 86% 75% / 0.16), transparent 32%),
+      linear-gradient(160deg, hsla(224 25% 12% / 0.78), hsla(223 24% 10% / 0.7));
+    box-shadow: 0 26px 56px -44px hsla(220 38% 3% / 0.95);
+  }
+
+  .admin-overview-pill {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    border-radius: 0.9rem;
+    border: 1px solid hsla(42 49% 80% / 0.16);
+    background: hsla(222 24% 8% / 0.34);
+    padding: 0.8rem 0.95rem;
+  }
+
+  .admin-overview-label {
+    font-family: var(--font-ui);
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: hsla(40 60% 90% / 0.66);
+  }
+
+  .admin-overview-value {
+    font-family: var(--font-heading);
+    font-size: 1.55rem;
+    line-height: 1;
+    color: hsl(40 90% 94%);
+  }
+
+  @media (min-width: 768px) {
+    .admin-tabs-list {
+      width: fit-content;
+      min-width: 280px;
+    }
+
+    .admin-tab-trigger {
+      min-width: 120px;
+      justify-content: center;
+    }
+  }
+
   .admin-stat-panel,
   .admin-post-card,
   .admin-editor-panel {
@@ -353,6 +398,22 @@
     background: linear-gradient(160deg, hsla(224 25% 12% / 0.76), hsla(223 24% 10% / 0.64));
     box-shadow: 0 24px 55px -45px hsla(220 38% 3% / 0.95);
     backdrop-filter: blur(9px);
+  }
+
+  .admin-editor-input {
+    border-color: hsla(42 52% 80% / 0.28) !important;
+    background: hsla(223 25% 12% / 0.92) !important;
+    color: hsl(39 70% 94%) !important;
+    caret-color: hsl(43 94% 72%);
+  }
+
+  .admin-editor-input::placeholder {
+    color: hsla(40 30% 86% / 0.44);
+  }
+
+  .admin-editor-input:focus-visible {
+    border-color: hsla(43 89% 72% / 0.52) !important;
+    box-shadow: 0 0 0 2px hsla(43 89% 72% / 0.28);
   }
 
   .admin-cover-frame {

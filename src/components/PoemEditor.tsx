@@ -71,7 +71,7 @@ const PoemEditor = ({ poem, onSave, onCancel, saving }: PoemEditorProps) => {
               <Input
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="mt-1 border-amber-100/20 bg-slate-900/30 font-heading text-lg text-amber-50"
+                className="admin-editor-input mt-1 font-heading text-lg"
                 placeholder="The Road Not Taken..."
                 required
               />
@@ -81,7 +81,7 @@ const PoemEditor = ({ poem, onSave, onCancel, saving }: PoemEditorProps) => {
               <Input
                 value={author}
                 onChange={(e) => setAuthor(e.target.value)}
-                className="mt-1 border-amber-100/20 bg-slate-900/30 font-ui text-amber-50"
+                className="admin-editor-input mt-1 font-ui"
                 placeholder="Anonymous"
               />
             </div>
@@ -133,7 +133,8 @@ const PoemEditor = ({ poem, onSave, onCancel, saving }: PoemEditorProps) => {
               <Textarea
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
-                className="mt-1 border-amber-100/20 bg-slate-900/28 font-body min-h-[260px] md:min-h-[300px] leading-relaxed text-amber-50"
+                spellCheck={false}
+                className="admin-editor-input mt-1 font-body min-h-[260px] text-base md:min-h-[300px] leading-relaxed"
                 placeholder={"Two roads diverged in a yellow wood,\nAnd sorry I could not travel both..."}
                 required
               />
@@ -145,7 +146,8 @@ const PoemEditor = ({ poem, onSave, onCancel, saving }: PoemEditorProps) => {
               <Textarea
                 value={excerpt}
                 onChange={(e) => setExcerpt(e.target.value)}
-                className="mt-1 border-amber-100/20 bg-slate-900/28 font-body min-h-[80px] text-amber-50"
+                spellCheck={false}
+                className="admin-editor-input mt-1 font-body min-h-[80px]"
                 placeholder="A short preview for the card..."
               />
             </div>

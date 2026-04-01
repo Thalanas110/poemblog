@@ -84,6 +84,11 @@ const AdminDashboard = () => {
     setIsAdmin(false);
   };
 
+  const totalPoems = poems?.length ?? 0;
+  const publishedPoems = poems?.filter((poem) => poem.published).length ?? 0;
+  const draftPoems = Math.max(totalPoems - publishedPoems, 0);
+  const latestTitle = poems?.[0]?.title;
+
   if (isAdmin === null) {
     return (
       <div className="min-h-screen bg-page">
@@ -155,6 +160,30 @@ const AdminDashboard = () => {
 
         <div className="container mx-auto px-4 py-6 md:py-8">
           <Tabs defaultValue="posts">
+            <section className="admin-overview-band mb-5 hidden items-center gap-4 rounded-2xl p-5 md:grid md:grid-cols-[1.4fr_repeat(3,minmax(0,1fr))] md:mb-7">
+              <div className="min-w-0">
+                <p className="font-ui text-xs uppercase tracking-[0.18em] text-amber-100/65">Royal Briefing</p>
+                <h2 className="mt-1 truncate text-2xl font-heading font-semibold text-amber-50">
+                  {latestTitle ? `Latest manuscript: ${latestTitle}` : "Your archive awaits its first manuscript"}
+                </h2>
+                <p className="mt-1 font-ui text-sm text-amber-100/75">
+                  Curate, polish, and publish every verse with the council tools below.
+                </p>
+              </div>
+              <div className="admin-overview-pill">
+                <span className="admin-overview-label">Total</span>
+                <span className="admin-overview-value">{totalPoems}</span>
+              </div>
+              <div className="admin-overview-pill">
+                <span className="admin-overview-label">Published</span>
+                <span className="admin-overview-value">{publishedPoems}</span>
+              </div>
+              <div className="admin-overview-pill">
+                <span className="admin-overview-label">Drafts</span>
+                <span className="admin-overview-value">{draftPoems}</span>
+              </div>
+            </section>
+
             <TabsList className="admin-tabs-list mb-5 md:mb-7">
               <TabsTrigger value="posts" className="admin-tab-trigger font-ui">
                 <ScrollText className="h-4 w-4" />
