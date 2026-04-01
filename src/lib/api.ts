@@ -100,8 +100,7 @@ export async function loginAdmin(email: string, password: string) {
     body: JSON.stringify({ email, password }),
   });
   if (!res.ok) {
-    const err = await res.json();
-    throw new Error(err.error || "Login failed");
+    throw new Error("Something went wrong");
   }
   const data = await res.json();
   // Set session locally

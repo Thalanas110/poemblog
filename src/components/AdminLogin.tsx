@@ -28,8 +28,9 @@ const AdminLogin = ({ onLogin }: AdminLoginProps) => {
         return;
       }
       onLogin();
-    } catch (err: any) {
-      console.log("An error occured");
+    } catch (err: unknown) {
+      setError("An error occured");
+      console.log("Login failed");
     } finally {
       setLoading(false);
     }
