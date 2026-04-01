@@ -3,7 +3,8 @@ import { loginAdmin } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Eye, EyeOff, Feather } from "lucide-react";
+import { ArrowLeft, Eye, EyeOff, Feather } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface AdminLoginProps {
   onLogin: () => void;
@@ -93,6 +94,11 @@ const AdminLogin = ({ onLogin }: AdminLoginProps) => {
             {error && <p className="text-destructive text-sm font-ui">{error}</p>}
             <Button type="submit" disabled={loading} className="w-full h-11 font-ui tracking-wide">
               {loading ? "Signing in..." : "Sign In"}
+            </Button>
+            <Button asChild type="button" variant="outline" className="w-full h-11 font-ui bg-background/35 border-border/70 text-foreground/90 hover:bg-background/55">
+              <Link to="/" className="gap-2">
+                <ArrowLeft className="h-4 w-4" /> Return to home
+              </Link>
             </Button>
           </form>
         </div>
