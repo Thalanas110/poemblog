@@ -1,0 +1,111 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap');
+
+@layer base {
+  :root {
+    --background: 220 20% 10%;
+    --foreground: 40 20% 90%;
+
+    --card: 220 20% 14%;
+    --card-foreground: 40 20% 90%;
+
+    --popover: 220 20% 14%;
+    --popover-foreground: 40 20% 90%;
+
+    --primary: 35 80% 55%;
+    --primary-foreground: 220 20% 10%;
+
+    --secondary: 220 15% 20%;
+    --secondary-foreground: 40 20% 85%;
+
+    --muted: 220 15% 18%;
+    --muted-foreground: 220 10% 55%;
+
+    --accent: 35 60% 45%;
+    --accent-foreground: 40 20% 95%;
+
+    --destructive: 0 65% 50%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 220 15% 22%;
+    --input: 220 15% 22%;
+    --ring: 35 80% 55%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 220 20% 12%;
+    --sidebar-foreground: 40 20% 85%;
+    --sidebar-primary: 35 80% 55%;
+    --sidebar-primary-foreground: 220 20% 10%;
+    --sidebar-accent: 220 15% 18%;
+    --sidebar-accent-foreground: 40 20% 85%;
+    --sidebar-border: 220 15% 22%;
+    --sidebar-ring: 35 80% 55%;
+
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'Lora', serif;
+    --font-ui: 'Inter', sans-serif;
+
+    --glass-bg: 220 20% 10% / 0.7;
+    --glass-border: 40 20% 90% / 0.1;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-body);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+  }
+}
+
+@layer components {
+  .glass-panel {
+    background: hsla(var(--glass-bg));
+    backdrop-filter: blur(20px);
+    border: 1px solid hsla(var(--glass-border));
+  }
+
+  .poem-content {
+    font-family: var(--font-body);
+    white-space: pre-line;
+    line-height: 2;
+    letter-spacing: 0.02em;
+  }
+
+  .font-ui {
+    font-family: var(--font-ui);
+  }
+
+  .text-glow {
+    text-shadow: 0 0 40px hsla(var(--primary) / 0.3);
+  }
+
+  .bg-page {
+    background-image: url('/images/bg.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+  }
+}
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-out forwards;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
