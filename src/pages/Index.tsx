@@ -18,20 +18,36 @@ const Index = () => {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_84%,rgba(251,146,60,0.30),transparent_31%),radial-gradient(circle_at_52%_8%,rgba(245,158,11,0.18),transparent_34%)]" />
 
       <div className="relative z-10 min-h-screen backdrop-blur-[1.5px]">
-        <header className="border-b border-amber-100/10 bg-slate-950/35">
-          <div className="mx-auto w-full max-w-6xl px-4 py-6 flex items-center justify-between">
-            <Link to="/" className="flex items-center gap-3">
-              <Feather className="h-6 w-6 text-amber-300" />
-              <h1 className="text-2xl font-heading font-bold text-amber-50 text-glow">
-                Verses & Visions
-              </h1>
+        <header className="sticky top-0 z-40 border-b border-amber-100/10 bg-slate-950/55 backdrop-blur-lg">
+          <div className="mx-auto w-full max-w-6xl px-4 py-4 flex items-center justify-between gap-4">
+            <Link to="/" className="flex items-center gap-3 min-w-0">
+              <span className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-amber-200/30 bg-slate-900/80">
+                <Feather className="h-5 w-5 text-amber-300" />
+              </span>
+              <div className="min-w-0">
+                <h1 className="text-xl md:text-2xl font-heading font-bold text-amber-50 text-glow leading-none truncate">
+                  Verses & Visions
+                </h1>
+                <p className="font-ui text-[10px] md:text-xs uppercase tracking-[0.16em] text-amber-100/55 mt-1">
+                  Poetry Journal
+                </p>
+              </div>
             </Link>
-            <Link
-              to="/admin"
-              className="font-ui text-sm text-amber-100/60 hover:text-amber-200 transition-colors"
-            >
-              Admin
-            </Link>
+
+            <nav className="flex items-center gap-2 md:gap-3 font-ui">
+              <a
+                href="#latest-poems"
+                className="rounded-full border border-amber-100/20 bg-slate-900/60 px-3 py-1.5 text-xs md:text-sm text-amber-100/85 hover:text-amber-50 hover:border-amber-200/40 transition-colors"
+              >
+                Latest
+              </a>
+              <Link
+                to="/admin"
+                className="rounded-full border border-amber-100/25 px-3 py-1.5 text-xs md:text-sm text-amber-100/80 hover:text-amber-50 hover:bg-slate-900/55 transition-colors"
+              >
+                Admin
+              </Link>
+            </nav>
           </div>
         </header>
 
@@ -111,7 +127,7 @@ const Index = () => {
                 </Link>
               )}
 
-              <div className="mx-auto w-full max-w-6xl">
+              <div id="latest-poems" className="mx-auto w-full max-w-6xl scroll-mt-28">
                 {remainingPoems.length > 0 && (
                   <div className="mb-5 flex items-end justify-between px-1">
                     <h3 className="text-2xl font-heading font-semibold text-amber-50/95">Latest poems</h3>
