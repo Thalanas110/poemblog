@@ -13,10 +13,8 @@ const PoemPage = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-page relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/85 via-slate-950/60 to-slate-950/90" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_12%,rgba(245,158,11,0.18),transparent_38%),radial-gradient(circle_at_18%_82%,rgba(251,146,60,0.2),transparent_32%)]" />
-        <div className="relative z-10 min-h-screen flex items-center justify-center">
+      <div className="admin-shell min-h-screen bg-page">
+        <div className="admin-shell-overlay relative z-10 min-h-screen flex items-center justify-center">
           <Feather className="h-8 w-8 text-amber-300 animate-pulse" />
         </div>
       </div>
@@ -25,10 +23,8 @@ const PoemPage = () => {
 
   if (!poem) {
     return (
-      <div className="min-h-screen bg-page relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/85 via-slate-950/60 to-slate-950/90" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_12%,rgba(245,158,11,0.18),transparent_38%),radial-gradient(circle_at_18%_82%,rgba(251,146,60,0.2),transparent_32%)]" />
-        <div className="relative z-10 min-h-screen flex items-center justify-center">
+      <div className="admin-shell min-h-screen bg-page">
+        <div className="admin-shell-overlay relative z-10 min-h-screen flex items-center justify-center">
           <p className="text-amber-100/80">Poem not found.</p>
         </div>
       </div>
@@ -36,10 +32,8 @@ const PoemPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-page relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-slate-950/85 via-slate-950/65 to-slate-950/95" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_52%_8%,rgba(245,158,11,0.17),transparent_35%),radial-gradient(circle_at_14%_84%,rgba(251,146,60,0.26),transparent_30%),radial-gradient(circle_at_82%_80%,rgba(59,130,246,0.14),transparent_38%)]" />
-      <div className="relative z-10 min-h-screen backdrop-blur-[1.5px]">
+    <div className="admin-shell min-h-screen bg-page">
+      <div className="admin-shell-overlay relative z-10 min-h-screen">
         <div className="mx-auto w-full max-w-3xl px-4 pt-6 md:pt-8">
           <Link
             to="/"

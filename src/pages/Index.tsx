@@ -14,11 +14,8 @@ const Index = () => {
   const remainingPoems = poems?.slice(1) ?? [];
 
   return (
-    <div className="min-h-screen bg-page relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-slate-950/85 via-slate-950/62 to-slate-950/94" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_84%,rgba(251,146,60,0.30),transparent_31%),radial-gradient(circle_at_52%_8%,rgba(245,158,11,0.18),transparent_34%)]" />
-
-      <div className="relative z-10 min-h-screen backdrop-blur-[1.5px]">
+    <div className="admin-shell min-h-screen bg-page">
+      <div className="admin-shell-overlay relative z-10 min-h-screen">
         <header className="sticky top-0 z-40 border-b border-amber-100/10 bg-slate-950/55 backdrop-blur-lg">
           <div className="mx-auto w-full max-w-6xl px-4 py-4 flex items-center justify-between gap-4">
             <Link to="/" className="flex items-center gap-3 min-w-0">
