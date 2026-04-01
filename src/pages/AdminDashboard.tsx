@@ -156,4 +156,20 @@ const AdminDashboard = () => {
                   setShowEditor(true);
                 }}
                 onEdit={(poem) => {
-                  setEditingPoem(poem
+                  setEditingPoem(poem);
+                  setShowEditor(true);
+                }}
+                onDelete={(id) => deleteMutation.mutate(id)}
+              />
+            </TabsContent>
+            <TabsContent value="statistics">
+              <AdminStatistics />
+            </TabsContent>
+          </Tabs>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default AdminDashboard;
