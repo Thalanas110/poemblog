@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchPoem, type Poem } from "@/lib/api";
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, Feather, Home } from "lucide-react";
+import { ArrowLeft, Feather } from "lucide-react";
 
 const PoemPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -40,44 +40,17 @@ const PoemPage = () => {
       <div className="absolute inset-0 bg-gradient-to-b from-slate-950/85 via-slate-950/65 to-slate-950/95" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_52%_8%,rgba(245,158,11,0.17),transparent_35%),radial-gradient(circle_at_14%_84%,rgba(251,146,60,0.26),transparent_30%),radial-gradient(circle_at_82%_80%,rgba(59,130,246,0.14),transparent_38%)]" />
       <div className="relative z-10 min-h-screen backdrop-blur-[1.5px]">
-        <header className="sticky top-0 z-40 border-b border-amber-100/10 bg-slate-950/55 backdrop-blur-lg">
-          <div className="mx-auto w-full max-w-6xl px-4 py-4 flex items-center justify-between gap-4">
-            <div className="flex items-center gap-3 min-w-0">
-              <Link
-                to="/"
-                className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-amber-100/25 bg-slate-900/65 text-amber-100/80 hover:text-amber-50 hover:border-amber-200/40 transition-colors"
-                aria-label="Back to poems"
-              >
-                <ArrowLeft className="h-4.5 w-4.5" />
-              </Link>
+        <div className="mx-auto w-full max-w-3xl px-4 pt-6 md:pt-8">
+          <Link
+            to="/"
+            className="inline-flex items-center gap-2 rounded-full border border-amber-100/25 bg-slate-900/65 px-4 py-2 text-sm font-ui text-amber-100/85 hover:text-amber-50 hover:border-amber-200/40 transition-colors"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            Go back to home
+          </Link>
+        </div>
 
-              <Link to="/" className="flex items-center gap-3 min-w-0">
-                <span className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-amber-200/30 bg-slate-900/80">
-                  <Feather className="h-4.5 w-4.5 text-amber-300" />
-                </span>
-                <span className="font-heading font-bold text-amber-50/95 truncate">Verses & Visions</span>
-              </Link>
-            </div>
-
-            <nav className="flex items-center gap-2 font-ui">
-              <Link
-                to="/"
-                className="inline-flex items-center gap-1.5 rounded-full border border-amber-100/25 px-3 py-1.5 text-xs md:text-sm text-amber-100/80 hover:text-amber-50 hover:bg-slate-900/55 transition-colors"
-              >
-                <Home className="h-3.5 w-3.5" />
-                Home
-              </Link>
-              <Link
-                to="/admin"
-                className="rounded-full border border-amber-100/25 px-3 py-1.5 text-xs md:text-sm text-amber-100/80 hover:text-amber-50 hover:bg-slate-900/55 transition-colors"
-              >
-                Admin
-              </Link>
-            </nav>
-          </div>
-        </header>
-
-        <article className="container mx-auto px-4 py-14 md:py-16 max-w-3xl animate-fade-in">
+        <article className="container mx-auto px-4 py-10 md:py-12 max-w-3xl animate-fade-in">
           {poem.image_url && (
             <div className="mb-8 overflow-hidden rounded-xl border border-amber-100/20 shadow-[0_20px_70px_rgba(2,6,23,0.85),0_0_40px_rgba(251,146,60,0.18)]">
               <img
