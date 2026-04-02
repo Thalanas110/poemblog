@@ -31,8 +31,17 @@ function isUuid(value: string) {
   return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(value);
 }
 
-function isCompletePoem(value: Partial<Poem> | null | undefined): value is Poem {
-  return Boolean(value?.id && value?.title && value?.content && value?.created_at && value?.author);
+async function parseApiError(res: Response, fallbackMessage: string) {
+  try {
+    const data = await res.json();
+    if (typeof data?.error === "string" && data.error.trim()) {
+      return data.error;
+    }
+  } catch {
+    // Ignore JSON parse failures and fall back to generic error text.
+  }
+
+  return `${fallbackMessage} (HTTP ${res.status})`;
 }
 
 export async function uploadPoemImage(file: File): Promise<string> {
@@ -53,7 +62,7 @@ export async function fetchPoemStats(): Promise<{
 }> {
   const headers = await getAuthHeaders();
   const res = await fetch(`${SUPABASE_URL}/functions/v1/poems?stats=true`, { headers });
-  if (!res.ok) throw new Error("Failed to fetch stats");
+  if (!res.ok) throw new Error(await parseApiError(res, "Failed to fetch stats"));
   return res.json();
 }
 
@@ -61,7 +70,7 @@ export async function fetchPoems(all = false): Promise<Poem[]> {
   const headers = await getAuthHeaders();
   const url = `${SUPABASE_URL}/functions/v1/poems${all ? "?all=true" : ""}`;
   const res = await fetch(url, { headers });
-  if (!res.ok) throw new Error("Failed to fetch poems");
+  if (!res.ok) throw new Error(await parseApiError(res, "Failed to fetch poems"));
   return res.json();
 }
 
@@ -69,7 +78,7 @@ export async function fetchPoem(identifier: string): Promise<Poem> {
   const headers = await getAuthHeaders();
   if (isUuid(identifier)) {
     const res = await fetch(`${SUPABASE_URL}/functions/v1/poems?id=${encodeURIComponent(identifier)}`, { headers });
-    if (!res.ok) throw new Error("Failed to fetch poem");
+    if (!res.ok) throw new Error(await parseApiError(res, "Failed to fetch poem"));
     return res.json();
   }
 
@@ -86,23 +95,25 @@ export async function fetchPoem(identifier: string): Promise<Poem> {
 
 export async function createPoem(poem: Partial<Poem>): Promise<Poem> {
   const headers = await getAuthHeaders();
+  const payload = { ...poem, slug: slugify(poem.slug || poem.title || "") };
   const res = await fetch(`${SUPABASE_URL}/functions/v1/poems`, {
     method: "POST",
     headers,
-    body: JSON.stringify(poem),
+    body: JSON.stringify(payload),
   });
-  if (!res.ok) throw new Error("Failed to create poem");
+  if (!res.ok) throw new Error(await parseApiError(res, "Failed to create poem"));
   return res.json();
 }
 
 export async function updatePoem(id: string, poem: Partial<Poem>): Promise<Poem> {
   const headers = await getAuthHeaders();
+  const payload = { ...poem, slug: slugify(poem.slug || poem.title || "") };
   const res = await fetch(`${SUPABASE_URL}/functions/v1/poems?id=${id}`, {
     method: "PUT",
     headers,
-    body: JSON.stringify(poem),
+    body: JSON.stringify(payload),
   });
-  if (!res.ok) throw new Error("Failed to update poem");
+  if (!res.ok) throw new Error(await parseApiError(res, "Failed to update poem"));
   return res.json();
 }
 
@@ -112,7 +123,7 @@ export async function deletePoem(id: string): Promise<void> {
     method: "DELETE",
     headers,
   });
-  if (!res.ok) throw new Error("Failed to delete poem");
+  if (!res.ok) throw new Error(await parseApiError(res, "Failed to delete poem"));
 }
 
 export async function loginAdmin(email: string, password: string) {

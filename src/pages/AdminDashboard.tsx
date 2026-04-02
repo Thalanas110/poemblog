@@ -45,6 +45,10 @@ const AdminDashboard = () => {
       setShowEditor(false);
       toast.success("Poem created!");
     },
+    onError: (error) => {
+      const message = error instanceof Error ? error.message : "Failed to create poem";
+      toast.error(message);
+    },
   });
 
   const updateMutation = useMutation({
@@ -58,6 +62,10 @@ const AdminDashboard = () => {
       setShowEditor(false);
       toast.success("Poem updated!");
     },
+    onError: (error) => {
+      const message = error instanceof Error ? error.message : "Failed to update poem";
+      toast.error(message);
+    },
   });
 
   const deleteMutation = useMutation({
@@ -68,6 +76,10 @@ const AdminDashboard = () => {
       queryClient.invalidateQueries({ queryKey: ["poem"] });
       queryClient.invalidateQueries({ queryKey: ["poem-stats"] });
       toast.success("Poem deleted.");
+    },
+    onError: (error) => {
+      const message = error instanceof Error ? error.message : "Failed to delete poem";
+      toast.error(message);
     },
   });
 

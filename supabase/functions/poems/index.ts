@@ -24,6 +24,11 @@ function matchesSlug(title: string, slug: string) {
   return slugify(title) === slug;
 }
 
+function isMissingSlugColumnError(error: unknown) {
+  const message = error instanceof Error ? error.message : String(error ?? "");
+  return /column .*slug|slug .* does not exist|poems\.slug/i.test(message);
+}
+
 async function createUniqueSlug(
   supabaseAdmin: ReturnType<typeof createClient>,
   title: string,
@@ -37,7 +42,13 @@ async function createUniqueSlug(
   }
 
   const { data, error } = await query;
-  if (error) throw error;
+  if (error) {
+    if (isMissingSlugColumnError(error)) {
+      // Backward compatibility: allow title-based URLs even before slug migration is applied.
+      return baseSlug;
+    }
+    throw error;
+  }
 
   const slugPattern = new RegExp(`^${escapeRegExp(baseSlug)}(?:-(\\d+))?$`);
   let maxSuffix = 0;
@@ -166,7 +177,13 @@ Deno.serve(async (req) => {
     if (method === "POST") {
       const body = await req.json();
       const payload = { ...body, slug: await createUniqueSlug(supabaseAdmin, body.title) };
-      const { data, error } = await supabaseAdmin.from("poems").insert(payload).select().single();
+      let { data, error } = await supabaseAdmin.from("poems").insert(payload).select().single();
+
+      if (error && isMissingSlugColumnError(error)) {
+        // Retry without slug for projects where migrations are not yet applied.
+        ({ data, error } = await supabaseAdmin.from("poems").insert(body).select().single());
+      }
+
       if (error) throw error;
       return new Response(JSON.stringify(data), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -188,12 +205,23 @@ Deno.serve(async (req) => {
         body.title && body.title !== currentPoem.title
           ? { ...body, slug: await createUniqueSlug(supabaseAdmin, body.title, poemId) }
           : body;
-      const { data, error } = await supabaseAdmin
+      let { data, error } = await supabaseAdmin
         .from("poems")
         .update(payload)
         .eq("id", poemId)
         .select()
         .single();
+
+      if (error && isMissingSlugColumnError(error)) {
+        const payloadWithoutSlug = { ...body };
+        ({ data, error } = await supabaseAdmin
+          .from("poems")
+          .update(payloadWithoutSlug)
+          .eq("id", poemId)
+          .select()
+          .single());
+      }
+
       if (error) throw error;
       return new Response(JSON.stringify(data), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },

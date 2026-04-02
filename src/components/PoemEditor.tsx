@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { ArrowLeft, Upload, X } from "lucide-react";
 import { toast } from "sonner";
+import { slugify } from "@/lib/utils";
 
 interface PoemEditorProps {
   poem: Poem | null;
@@ -17,6 +18,8 @@ interface PoemEditorProps {
 
 const PoemEditor = ({ poem, onSave, onCancel, saving }: PoemEditorProps) => {
   const [title, setTitle] = useState(poem?.title || "");
+  const [slug, setSlug] = useState(poem?.slug || slugify(poem?.title || ""));
+  const [slugEdited, setSlugEdited] = useState(Boolean(poem?.slug));
   const [content, setContent] = useState(poem?.content || "");
   const [author, setAuthor] = useState(poem?.author || "");
   const [excerpt, setExcerpt] = useState(poem?.excerpt || "");
@@ -42,7 +45,15 @@ const PoemEditor = ({ poem, onSave, onCancel, saving }: PoemEditorProps) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSave({ title, content, author, excerpt: excerpt || null, image_url: imageUrl || null, published });
+    onSave({
+      title,
+      slug: slugify(slug || title),
+      content,
+      author,
+      excerpt: excerpt || null,
+      image_url: imageUrl || null,
+      published,
+    });
   };
 
   return (
@@ -70,9 +81,28 @@ const PoemEditor = ({ poem, onSave, onCancel, saving }: PoemEditorProps) => {
               <Label className="font-ui text-sm text-amber-100/80">Title</Label>
               <Input
                 value={title}
-                onChange={(e) => setTitle(e.target.value)}
+                onChange={(e) => {
+                  const nextTitle = e.target.value;
+                  setTitle(nextTitle);
+                  if (!slugEdited) {
+                    setSlug(slugify(nextTitle));
+                  }
+                }}
                 className="admin-editor-input mt-1 font-heading text-lg"
                 placeholder="The Road Not Taken..."
+                required
+              />
+            </div>
+            <div>
+              <Label className="font-ui text-sm text-amber-100/80">Slug</Label>
+              <Input
+                value={slug}
+                onChange={(e) => {
+                  setSlugEdited(true);
+                  setSlug(slugify(e.target.value));
+                }}
+                className="admin-editor-input mt-1 font-ui"
+                placeholder="the-road-not-taken"
                 required
               />
             </div>
