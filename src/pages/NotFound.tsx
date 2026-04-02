@@ -9,8 +9,9 @@ const NotFound = () => {
   }, [location.pathname]);
 
   return (
-    <div className="relative min-h-screen bg-page overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-slate-950/34 via-slate-950/14 to-slate-950/52" />
+    <div className="admin-shell min-h-screen bg-page">
+      <div className="admin-shell-overlay relative min-h-screen overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/34 via-slate-950/14 to-slate-950/52" />
 
       <div className="pointer-events-none absolute -top-20 -left-16 h-72 w-72 rounded-full bg-amber-200/25 blur-3xl" />
       <div className="pointer-events-none absolute top-24 right-0 h-80 w-80 rounded-full bg-emerald-200/12 blur-3xl" />
@@ -59,9 +60,6 @@ const NotFound = () => {
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_12%,rgba(255,248,214,0.14),transparent_32%),radial-gradient(circle_at_84%_22%,rgba(188,242,211,0.12),transparent_30%)]" />
       <div className="pointer-events-none absolute inset-0 [mask-image:linear-gradient(to_bottom,transparent,black_26%,black_88%,transparent)] bg-[url('/images/bg.png')] bg-cover bg-center opacity-[0.06]" />
       <div className="pointer-events-none absolute top-8 left-1/2 h-24 w-px -translate-x-1/2 bg-gradient-to-b from-amber-100/40 to-transparent" />
-      <div className="pointer-events-none absolute top-8 left-1/2 -translate-x-1/2 rounded-full border border-amber-100/45 bg-amber-100/20 px-3 py-1 font-ui text-[10px] uppercase tracking-[0.2em] text-amber-50/80">
-        Once Upon a 404
-      </div>
       <div className="pointer-events-none absolute right-8 bottom-8 h-2 w-2 rounded-full bg-amber-100/80 shadow-[0_0_18px_rgba(255,241,185,0.95)]" />
       <div className="pointer-events-none absolute right-16 bottom-16 h-1.5 w-1.5 rounded-full bg-emerald-100/75 shadow-[0_0_16px_rgba(203,255,231,0.9)]" />
       <div className="pointer-events-none absolute left-10 top-28 h-1.5 w-1.5 rounded-full bg-amber-50/80 shadow-[0_0_14px_rgba(255,244,204,0.95)]" />
@@ -155,7 +153,8 @@ const NotFound = () => {
       <div className="pointer-events-none absolute right-[98%] top-[40%] h-1 w-1 rounded-full bg-amber-50/80 shadow-[0_0_12px_rgba(255,244,204,0.9)]" />
       <div className="pointer-events-none absolute right-[96%] top-[56%] h-1 w-1 rounded-full bg-emerald-100/70 shadow-[0_0_12px_rgba(203,255,231,0.9)]" />
       <div className="pointer-events-none absolute right-[94%] top-[72%] h-1 w-1 rounded-full bg-sky-100/70 shadow-[0_0_12px_rgba(206,240,255,0.9)]" />
-      <div className="pointer-events-none absolute right-[92%] top-[86%] h-1 w-1 rounded-full bg-amber-100/70 shadow-[0_0_12px_rgba(255,241,185,0.9)]" />
+        <div className="pointer-events-none absolute right-[92%] top-[86%] h-1 w-1 rounded-full bg-amber-100/70 shadow-[0_0_12px_rgba(255,241,185,0.9)]" />
+      </div>
     </div>
   );
 };
