@@ -1,4 +1,5 @@
 import { supabase } from "@/integrations/supabase/client";
+import { slugify } from "@/lib/utils";
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 const ANON_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
@@ -15,6 +16,7 @@ async function getAuthHeaders() {
 
 export interface Poem {
   id: string;
+  slug: string;
   title: string;
   content: string;
   author: string;
@@ -23,6 +25,14 @@ export interface Poem {
   published: boolean;
   created_at: string;
   updated_at: string;
+}
+
+function isUuid(value: string) {
+  return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(value);
+}
+
+function isCompletePoem(value: Partial<Poem> | null | undefined): value is Poem {
+  return Boolean(value?.id && value?.title && value?.content && value?.created_at && value?.author);
 }
 
 export async function uploadPoemImage(file: File): Promise<string> {
@@ -55,11 +65,23 @@ export async function fetchPoems(all = false): Promise<Poem[]> {
   return res.json();
 }
 
-export async function fetchPoem(id: string): Promise<Poem> {
+export async function fetchPoem(identifier: string): Promise<Poem> {
   const headers = await getAuthHeaders();
-  const res = await fetch(`${SUPABASE_URL}/functions/v1/poems?id=${id}`, { headers });
-  if (!res.ok) throw new Error("Failed to fetch poem");
-  return res.json();
+  if (isUuid(identifier)) {
+    const res = await fetch(`${SUPABASE_URL}/functions/v1/poems?id=${encodeURIComponent(identifier)}`, { headers });
+    if (!res.ok) throw new Error("Failed to fetch poem");
+    return res.json();
+  }
+
+  const poems = await fetchPoems();
+  const fallbackPoem = poems.find(
+    (poem) => poem.slug === identifier || slugify(poem.title) === identifier,
+  );
+  if (fallbackPoem) {
+    return fallbackPoem;
+  }
+
+  throw new Error("Failed to fetch poem");
 }
 
 export async function createPoem(poem: Partial<Poem>): Promise<Poem> {

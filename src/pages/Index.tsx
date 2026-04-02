@@ -3,6 +3,7 @@ import { fetchPoems, type Poem } from "@/lib/api";
 import { Link } from "react-router-dom";
 import { ArrowRight, Feather, Menu } from "lucide-react";
 import { Sheet, SheetClose, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { slugify } from "@/lib/utils";
 
 const Index = () => {
   const { data: poems, isLoading } = useQuery<Poem[]>({
@@ -116,7 +117,7 @@ const Index = () => {
             <>
               {featuredPoem && (
                 <Link
-                  to={`/poem/${featuredPoem.id}`}
+                  to={`/poem/${featuredPoem.slug || slugify(featuredPoem.title)}`}
                   className="group mb-12 block overflow-hidden rounded-2xl border border-amber-100/20 bg-slate-950/88 backdrop-blur-sm shadow-[0_20px_70px_rgba(2,6,23,0.82),0_0_42px_rgba(251,146,60,0.18)] transition-all duration-300 hover:border-amber-200/40 hover:shadow-[0_25px_85px_rgba(2,6,23,0.88),0_0_55px_rgba(251,146,60,0.25)]"
                 >
                   <div className="grid lg:grid-cols-[1.25fr_1fr]">
@@ -180,7 +181,7 @@ const Index = () => {
                   {remainingPoems.map((poem, i) => (
                     <Link
                       key={poem.id}
-                      to={`/poem/${poem.id}`}
+                      to={`/poem/${poem.slug || slugify(poem.title)}`}
                       className="group overflow-hidden rounded-xl border border-amber-100/20 transition-all duration-300 hover:border-amber-200/50 hover:shadow-[0_12px_45px_rgba(2,6,23,0.78)] animate-fade-in"
                       style={{
                         animationDelay: `${i * 90}ms`,

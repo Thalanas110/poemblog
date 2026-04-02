@@ -1,15 +1,55 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchPoem, type Poem } from "@/lib/api";
-import { useParams, Link } from "react-router-dom";
+import { fetchPoem, fetchPoems, type Poem } from "@/lib/api";
+import { useEffect } from "react";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { ArrowLeft, Feather } from "lucide-react";
+import { slugify } from "@/lib/utils";
+
+const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+function formatPublishedDate(value: string) {
+  const date = new Date(value);
+  return Number.isNaN(date.getTime())
+    ? "Date unavailable"
+    : date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+}
 
 const PoemPage = () => {
-  const { id } = useParams<{ id: string }>();
+  const { slug } = useParams<{ slug: string }>();
+  const navigate = useNavigate();
   const { data: poem, isLoading } = useQuery<Poem>({
-    queryKey: ["poem", id],
-    queryFn: () => fetchPoem(id!),
-    enabled: !!id,
+    queryKey: ["poem", slug],
+    queryFn: async () => {
+      if (!slug) {
+        throw new Error("Missing poem identifier");
+      }
+
+      if (UUID_PATTERN.test(slug)) {
+        return fetchPoem(slug);
+      }
+
+      const poems = await fetchPoems();
+      const match = poems.find((item) => item.slug === slug || slugify(item.title) === slug);
+      if (!match) {
+        throw new Error("Failed to fetch poem");
+      }
+
+      return match;
+    },
+    enabled: !!slug,
   });
+
+  const canonicalSlug = poem ? poem.slug || slugify(poem.title ?? "") : null;
+
+  useEffect(() => {
+    if (slug && canonicalSlug && slug !== canonicalSlug) {
+      navigate(`/poem/${canonicalSlug}`, { replace: true });
+    }
+  }, [canonicalSlug, navigate, slug]);
 
   if (isLoading) {
     return (
@@ -61,18 +101,13 @@ const PoemPage = () => {
               {poem.title}
             </h1>
             <p className="font-ui text-amber-100/65 tracking-wide">
-              by {poem.author} ·{" "}
-              {new Date(poem.created_at).toLocaleDateString("en-US", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })}
+              by {poem.author || "Unknown author"} · {formatPublishedDate(poem.created_at)}
             </p>
           </header>
 
           <div className="glass-panel rounded-xl p-8 md:p-12 border-amber-100/15 bg-slate-950/45 shadow-[0_10px_45px_rgba(2,6,23,0.75)]">
-            <div className="poem-content text-amber-50/90 text-lg leading-relaxed">
-              {poem.content}
+            <div className="poem-content whitespace-pre-wrap text-amber-50/90 text-lg leading-relaxed">
+              {poem.content?.trim() || "This poem is missing its content."}
             </div>
           </div>
         </article>

@@ -18,7 +18,7 @@ const App = () => (
       <BrowserRouter future={{ v7_startTransition: true }}>
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/poem/:id" element={<PoemPage />} />
+          <Route path="/poem/:slug" element={<PoemPage />} />
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
