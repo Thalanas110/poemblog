@@ -2,16 +2,7 @@ import { useState } from "react";
 import { type Poem } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+import { ConfirmModal } from "@/components/Modals";
 import { Feather, Plus, Edit, Trash2, BookText, CalendarDays } from "lucide-react";
 
 interface AdminPostsListProps {
@@ -109,42 +100,23 @@ const AdminPostsList = ({ poems, isLoading, onNew, onEdit, onDelete }: AdminPost
           </div>
         </div>
       ))}
-      <AlertDialog
+      <ConfirmModal
         open={Boolean(poemToDelete)}
-        onOpenChange={(isOpen) => {
-          if (!isOpen) {
-            setPoemToDelete(null);
-          }
+        title="Delete this poem?"
+        description={
+          poemToDelete
+            ? `This will permanently remove "${poemToDelete.title}" and cannot be undone.`
+            : "This action cannot be undone."
+        }
+        confirmLabel="Delete"
+        cancelLabel="Cancel"
+        onCancel={() => setPoemToDelete(null)}
+        onConfirm={() => {
+          if (!poemToDelete) return;
+          onDelete(poemToDelete.id);
+          setPoemToDelete(null);
         }}
-      >
-        <AlertDialogContent className="border-rose-300/25 bg-slate-950 text-amber-50">
-          <AlertDialogHeader>
-            <AlertDialogTitle className="font-heading text-xl text-amber-50">
-              Delete this poem?
-            </AlertDialogTitle>
-            <AlertDialogDescription className="font-ui text-amber-100/75">
-              {poemToDelete
-                ? `This will permanently remove \"${poemToDelete.title}\" and cannot be undone.`
-                : "This action cannot be undone."}
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel className="border-amber-100/25 bg-slate-900/20 font-ui text-amber-50 hover:bg-slate-900/45">
-              Cancel
-            </AlertDialogCancel>
-            <AlertDialogAction
-              onClick={() => {
-                if (!poemToDelete) return;
-                onDelete(poemToDelete.id);
-                setPoemToDelete(null);
-              }}
-              className="bg-rose-500 font-ui text-white hover:bg-rose-600"
-            >
-              Delete
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      />
     </div>
   );
 };

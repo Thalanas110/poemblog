@@ -15,6 +15,7 @@ import AdminPostsList from "@/components/AdminPostsList";
 import AdminStatistics from "@/components/AdminStatistics";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ConfirmModal } from "@/components/Modals";
 import { Feather, Sparkles, Plus, LogOut, ScrollText } from "lucide-react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
@@ -23,6 +24,7 @@ const AdminDashboard = () => {
   const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
   const [editingPoem, setEditingPoem] = useState<Poem | null>(null);
   const [showEditor, setShowEditor] = useState(false);
+  const [logoutConfirmOpen, setLogoutConfirmOpen] = useState(false);
   const queryClient = useQueryClient();
 
   useEffect(() => {
@@ -158,7 +160,7 @@ const AdminDashboard = () => {
                   <Plus className="h-4 w-4" /> New Poem
                 </Button>
                 <Button
-                  onClick={handleLogout}
+                  onClick={() => setLogoutConfirmOpen(true)}
                   variant="outline"
                   size="sm"
                   className="font-ui gap-2 border-amber-200/25 bg-slate-900/25 text-amber-50 hover:bg-slate-900/55"
@@ -169,6 +171,19 @@ const AdminDashboard = () => {
             </div>
           </div>
         </header>
+
+        <ConfirmModal
+          open={logoutConfirmOpen}
+          title="Confirm logout"
+          description="Logging out will end your current session. Any unsaved changes in the editor will be lost."
+          confirmLabel="Logout"
+          cancelLabel="Stay logged in"
+          onCancel={() => setLogoutConfirmOpen(false)}
+          onConfirm={() => {
+            handleLogout();
+            setLogoutConfirmOpen(false);
+          }}
+        />
 
         <div className="container mx-auto px-4 py-6 md:py-8">
           <Tabs defaultValue="posts">

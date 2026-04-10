@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
+import { ConfirmModal } from "@/components/Modals";
 import { ArrowLeft, Upload, X } from "lucide-react";
 import { toast } from "sonner";
 import { slugify } from "@/lib/utils";
@@ -26,6 +27,7 @@ const PoemEditor = ({ poem, onSave, onCancel, saving }: PoemEditorProps) => {
   const [published, setPublished] = useState(poem?.published || false);
   const [imageUrl, setImageUrl] = useState(poem?.image_url || "");
   const [uploading, setUploading] = useState(false);
+  const [showDiscardConfirm, setShowDiscardConfirm] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,6 +58,24 @@ const PoemEditor = ({ poem, onSave, onCancel, saving }: PoemEditorProps) => {
     });
   };
 
+  const hasUnsavedChanges =
+    title !== (poem?.title ?? "") ||
+    slug !== (poem?.slug ?? slugify(poem?.title || "")) ||
+    content !== (poem?.content ?? "") ||
+    author !== (poem?.author ?? "") ||
+    excerpt !== (poem?.excerpt ?? "") ||
+    published !== (poem?.published ?? false) ||
+    imageUrl !== (poem?.image_url ?? "");
+
+  const handleCancel = () => {
+    if (hasUnsavedChanges) {
+      setShowDiscardConfirm(true);
+      return;
+    }
+
+    onCancel();
+  };
+
   return (
     <div className="admin-shell min-h-screen bg-page">
       <div className="admin-shell-overlay min-h-screen">
@@ -64,7 +84,7 @@ const PoemEditor = ({ poem, onSave, onCancel, saving }: PoemEditorProps) => {
             <Button
               variant="ghost"
               size="icon"
-              onClick={onCancel}
+              onClick={handleCancel}
               className="text-amber-100 hover:bg-slate-900/35"
             >
               <ArrowLeft className="h-5 w-5" />
@@ -197,7 +217,7 @@ const PoemEditor = ({ poem, onSave, onCancel, saving }: PoemEditorProps) => {
               <Button
                 type="button"
                 variant="outline"
-                onClick={onCancel}
+                onClick={handleCancel}
                 className="font-ui border-amber-100/30 bg-slate-900/25 text-amber-50 hover:bg-slate-900/45"
               >
                 Cancel
@@ -206,7 +226,20 @@ const PoemEditor = ({ poem, onSave, onCancel, saving }: PoemEditorProps) => {
           </form>
         </div>
       </div>
-    </div>
+
+        <ConfirmModal
+          open={showDiscardConfirm}
+          title="Discard changes?"
+          description="You have unsaved changes in the editor. If you leave now, your changes will be lost."
+          confirmLabel="Discard"
+          cancelLabel="Continue editing"
+          onCancel={() => setShowDiscardConfirm(false)}
+          onConfirm={() => {
+            setShowDiscardConfirm(false);
+            onCancel();
+          }}
+        />
+      </div>
   );
 };
 
